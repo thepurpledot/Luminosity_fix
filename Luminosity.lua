@@ -1046,7 +1046,7 @@ function Luminosity.new(Name, Header, Icon)
     function Window:Toggle(Value)
         Window.Toggled = Value or not Window.Toggled
 
-        local AbsolutePosition = Main.AbsolutePosition
+        --local AbsolutePosition = Main.AbsolutePosition
         local AbsoulteSize = Main.AbsoluteSize
         if Window.Toggled == true then
             Main.Visible = true
