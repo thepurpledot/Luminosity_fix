@@ -1052,7 +1052,7 @@ function Luminosity.new(Name, Header, Icon)
             Main.Visible = true
             Utility.Tween(Main, TweenInfo.new(0.25), {Size = WindowInfo.SizeSave}):Yield()
             Main.UISizeConstraint.MinSize = Vector2.new(300, 200)
-            Main.Position = UDim2.new(0, AbsolutePosition.X, 0, AbsolutePosition.Y)
+            --Main.Position = UDim2.new(0, AbsolutePosition.X, 0, AbsolutePosition.Y)
         else
             WindowInfo.SizeSave = Main.Size
             --Main.Position = UDim2.new(0, AbsolutePosition.X + (AbsoulteSize.X * 0.5), 0, AbsolutePosition.Y + (AbsoulteSize.Y * 0.5))
