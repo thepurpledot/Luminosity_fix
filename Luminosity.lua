@@ -218,7 +218,7 @@ local Luminosity = {
         Debug = false;
     };
     ColorScheme = {
-        Primary = Color3.fromRGB(66, 134, 245);
+        Primary = Color3.fromRGB(140, 20, 38);
         Text = Color3.new(255, 255, 255);
     };
 }
