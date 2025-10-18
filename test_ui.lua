@@ -663,6 +663,7 @@ local function CreateOptions(Frame)
         local ClosedHeight = 35
         local DefaultOptionColor = Color3.fromRGB(50, 55, 60)
         local ToggleTweenInfo = TweenInfo.new(0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out)
+        local ListGap = 4
 
         local Container = Utility.new("Frame", {
             Name = "Dropdown",
@@ -672,9 +673,17 @@ local function CreateOptions(Frame)
             ZIndex = 2
         })
 
+        local Header = Utility.new("Frame", {
+            Name = "Header",
+            Parent = Container,
+            BackgroundTransparency = 1,
+            Size = UDim2.new(1, 0, 0, ClosedHeight),
+            ZIndex = 3
+        })
+
         local TitleLabel = Utility.new("TextLabel", {
             Name = "Title",
-            Parent = Container,
+            Parent = Header,
             AnchorPoint = Vector2.new(0, 0.5),
             BackgroundTransparency = 1,
             Position = UDim2.new(0, 0, 0.5, 0),
@@ -690,7 +699,7 @@ local function CreateOptions(Frame)
 
         local Selected = Utility.new("ImageButton", {
             Name = "Selected",
-            Parent = Container,
+            Parent = Header,
             Active = true,
             AutoButtonColor = false,
             AnchorPoint = Vector2.new(1, 0.5),
@@ -737,10 +746,10 @@ local function CreateOptions(Frame)
 
         local OptionsList = Utility.new("ImageLabel", {
             Name = "Options",
-            Parent = Selected,
-            AnchorPoint = Vector2.new(0.5, 0),
+            Parent = Container,
+            AnchorPoint = Vector2.new(0, 0),
             BackgroundTransparency = 1,
-            Position = UDim2.new(0.5, 0, 1, 4),
+            Position = UDim2.new(0, 0, 0, ClosedHeight + ListGap),
             Size = UDim2.new(1, 0, 0, 0),
             ZIndex = 6,
             Image = "rbxassetid://3570695787",
@@ -819,7 +828,7 @@ local function CreateOptions(Frame)
 
         local function UpdateSizing(Open, Instant)
             local ContentHeight = Open and GetContentHeight() or 0
-            local ContainerHeight = ClosedHeight + (Open and (ContentHeight + 4) or 0)
+            local ContainerHeight = ClosedHeight + (Open and (ContentHeight + ListGap) or 0)
 
             if Instant then
                 Container.Size = UDim2.new(1, 0, 0, ContainerHeight)
