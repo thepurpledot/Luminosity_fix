@@ -870,26 +870,34 @@ local function CreateOptions(Frame)
             Utility.Tween(OptionsList, ToggleTweenInfo, {Size = UDim2.new(1, 0, 0, ContentHeight)}):Play()
             Utility.Tween(SelectedArrow, ToggleTweenInfo, {Rotation = Open and 180 or 0, ImageTransparency = Open and 0 or 0.3}):Play()
             RefreshParentLayout()
+            if PendingRefresh then
+                PendingRefresh:Disconnect()
+                PendingRefresh = nil
+            end
 
-            if not Open then
+            if Open then
+                PendingRefresh = Services.RunService.RenderStepped:Connect(function()
+                    if not Properties.Open then
+                        if PendingRefresh then
+                            PendingRefresh:Disconnect()
+                            PendingRefresh = nil
+                        end
+                        return
+                    end
+                    RefreshParentLayout()
+                end)
+            else
                 coroutine.wrap(function()
                     Utility.Wait(0.25)
                     if not Properties.Open then
                         OptionsList.Visible = false
+                        if PendingRefresh then
+                            PendingRefresh:Disconnect()
+                            PendingRefresh = nil
+                        end
                     end
                     RefreshParentLayout()
                 end)()
-            else
-                if PendingRefresh then
-                    PendingRefresh:Disconnect()
-                end
-                PendingRefresh = Services.RunService.RenderStepped:Connect(function()
-                    RefreshParentLayout()
-                    if PendingRefresh then
-                        PendingRefresh:Disconnect()
-                        PendingRefresh = nil
-                    end
-                end)
             end
         end
 
