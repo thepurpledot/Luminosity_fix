@@ -778,6 +778,7 @@ local function CreateOptions(Frame)
         })
 
         local OptionButtons = {}
+        local PendingRefresh
 
         local function RefreshParentLayout()
             local InfoContainer = Container.Parent
@@ -878,6 +879,17 @@ local function CreateOptions(Frame)
                     end
                     RefreshParentLayout()
                 end)()
+            else
+                if PendingRefresh then
+                    PendingRefresh:Disconnect()
+                end
+                PendingRefresh = Services.RunService.RenderStepped:Connect(function()
+                    RefreshParentLayout()
+                    if PendingRefresh then
+                        PendingRefresh:Disconnect()
+                        PendingRefresh = nil
+                    end
+                end)
             end
         end
 
