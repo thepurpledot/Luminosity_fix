@@ -779,6 +779,24 @@ local function CreateOptions(Frame)
 
         local OptionButtons = {}
 
+        local function RefreshParentLayout()
+            local InfoContainer = Container.Parent
+            if not InfoContainer then
+                return
+            end
+
+            local Layout = InfoContainer:FindFirstChildWhichIsA("UIListLayout")
+            if Layout then
+                InfoContainer.Size = UDim2.new(1, 0, 0, Layout.AbsoluteContentSize.Y + 5)
+
+                local Card = InfoContainer.Parent
+                local Arrow = Card and Card:FindFirstChild("Arrow")
+                if Card and Arrow and (Arrow.Rotation > 90 or Arrow.ImageTransparency == 0) then
+                    Card.Size = UDim2.new(1, 0, 0, 45 + Layout.AbsoluteContentSize.Y)
+                end
+            end
+        end
+
         local function UpdateDisplayedValue()
             if Properties.Value == nil then
                 SelectedValue.Text = Properties.Placeholder
@@ -839,6 +857,7 @@ local function CreateOptions(Frame)
                 if not Open then
                     OptionsList.Visible = false
                 end
+                RefreshParentLayout()
                 return
             end
 
@@ -849,6 +868,7 @@ local function CreateOptions(Frame)
             Utility.Tween(Container, ToggleTweenInfo, {Size = UDim2.new(1, 0, 0, ContainerHeight)}):Play()
             Utility.Tween(OptionsList, ToggleTweenInfo, {Size = UDim2.new(1, 0, 0, ContentHeight)}):Play()
             Utility.Tween(SelectedArrow, ToggleTweenInfo, {Rotation = Open and 180 or 0, ImageTransparency = Open and 0 or 0.3}):Play()
+            RefreshParentLayout()
 
             if not Open then
                 coroutine.wrap(function()
@@ -856,6 +876,7 @@ local function CreateOptions(Frame)
                     if not Properties.Open then
                         OptionsList.Visible = false
                     end
+                    RefreshParentLayout()
                 end)()
             end
         end
@@ -949,9 +970,11 @@ local function CreateOptions(Frame)
             if Properties.Open then
                 UpdateSizing(true, true)
             end
+            RefreshParentLayout()
         end)
 
         BuildOptions()
+        RefreshParentLayout()
 
         return setmetatable({}, {
             __index = function(Self, Index)
