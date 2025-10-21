@@ -623,7 +623,7 @@ local function CreateOptions(Frame)
                 coroutine.wrap(function()
                     local Success, Error = pcall(Properties.Function, Properties.Value)
                     assert(Luminosity.Settings.Debug == false or Success, Error)
-                end)
+                end)()
                 Container.TextBox.Input.Text = ""
             end
         end)
@@ -1926,3 +1926,4 @@ function Luminosity.new(Name, Header, Icon)
 end
 
 return Luminosity
+
