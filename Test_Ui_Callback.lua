@@ -1926,4 +1926,3 @@ function Luminosity.new(Name, Header, Icon)
 end
 
 return Luminosity
-
